@@ -1,9 +1,6 @@
 const express = require('express');
 
-function setAction(body) {
-    const value = body.value;
-    const proposalNumber = new Date().getTime();
-}
+const setAction = require('../src/actions/set');
 
 exports.initApp = function(ip, port) {
     const app = express();
@@ -20,7 +17,7 @@ exports.initApp = function(ip, port) {
     app.post('/', function(req, res) {
         switch (req.body.action) {
             case 'set':
-                setAction(req.body);
+                setAction.setAction(req.body);
                 break;
             default:
                 res.send('{"error": "Incorrect action"}');
