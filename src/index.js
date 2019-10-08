@@ -28,7 +28,6 @@ const actions = {
 function setAction(body) {
     const value = body.value;
     const proposalNumber = new Date().getTime();
-    console.log(proposalNumber);
 }
 
 app.use(express.json())
