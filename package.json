@@ -1,0 +1,23 @@
+{
+  "name": "paxos",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gashev/node-paxos.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gashev/node-paxos/issues"
+  },
+  "homepage": "https://github.com/gashev/node-paxos#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
