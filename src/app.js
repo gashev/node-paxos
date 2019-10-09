@@ -18,10 +18,14 @@ exports.initApp = function(ip, port, servers) {
         const a = new actions.Actions(servers);
         switch (req.body.action) {
             case 'prepare':
-                a.prepareAction(req.body, servers);
+                const result = a.prepareAction(req.body, servers);
+                console.log('app.prepare', result);
+                res.send(result);
+                return;
                 break;
             case 'set':
-                a.setAction(req.body, servers);
+                res.send(JSON.stringify(a.setAction(req.body, servers)));
+                return;
                 break;
             default:
                 res.send('{"error": "Incorrect action"}');

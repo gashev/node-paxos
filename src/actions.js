@@ -1,20 +1,21 @@
 const request = require('request');
+const state = require('../src/state');
 
 exports.Actions = class Actions {
     constructor(servers) {
         this.servers = servers;
+        this.state = new state.State();
     }
-
 
     sendRequest(options) {
         return new Promise(function(resolve, reject) {
-        request(options, function(err, resp, body) {
-            if (err) {
-            reject(err);
-            } else {
-            resolve(body);
-            }
-        })
+            request(options, function(err, resp, body) {
+                if (err) {
+                reject(err);
+                } else {
+                resolve(body);
+                }
+            })
         })
     }
 
@@ -42,7 +43,13 @@ exports.Actions = class Actions {
         console.log(result);
     }
 
-    async prepareAction(body, servers) {
-        console.log('prepare');
+    prepareAction(body, servers) {
+        console.log(body, this.state);
+        if (this.state.currentNumber > body.number) {
+            return {number: body.number, value: this.state.value};
+        }
+
+        this.state.currentNumber = body.number;
+        return {status: 'Ok'};
     }
 }
