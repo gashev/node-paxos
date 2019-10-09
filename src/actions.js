@@ -79,20 +79,20 @@ exports.Actions = class Actions {
     }
 
     prepareAction(body) {
-        if (this.state.currentNumber > body.number) {
+        if (this.state.number > body.number) {
             return {number: body.number, value: this.state.value};
         }
 
-        this.state.currentNumber = body.number;
+        this.state.number = body.number;
         return {status: 'Ok'};
     }
 
     acceptAction(body) {
-        if (this.state.currentNumber > body.number) {
+        if (this.state.number > body.number) {
             return {number: body.number, value: this.state.value};
         }
 
-        this.state.currentNumber = body.number;
+        this.state.number = body.number;
         this.state.value = body.value;
 
         console.log('this.state', this.state);
