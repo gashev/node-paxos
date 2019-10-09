@@ -40,8 +40,11 @@ exports.Actions = class Actions {
                 }
             };
 
-            result[this.servers[i]] = JSON.parse(await this.sendRequest(options));
-
+            try {
+                result[this.servers[i]] = JSON.parse(await this.sendRequest(options));
+            } catch (err) {
+                result[this.servers[i]] = {error: err};
+            }
             console.log(this.servers[i], result[this.servers[i]], result[this.servers[i]].status);
             if (result[this.servers[i]].status === 'Ok') {
                 counter++;
@@ -71,8 +74,11 @@ exports.Actions = class Actions {
                     'Content-Type':'application/json'
                 }
             };
-
-            result[this.servers[i]] = JSON.parse(await this.sendRequest(options));
+            try {
+                result[this.servers[i]] = JSON.parse(await this.sendRequest(options));
+            } catch (err) {
+                result[this.servers[i]] = {error: err};
+            }
             /* @todo: add response validation (number parameter). */
         }
         console.log(result);
