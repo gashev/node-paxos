@@ -19,4 +19,4 @@ let proposalNumber = 0;
 let currentNumber = 0;
 let value = undefined;
 
-app.initApp(ip, port);
+app.initApp(ip, port, servers);
