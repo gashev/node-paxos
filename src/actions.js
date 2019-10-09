@@ -20,16 +20,16 @@ exports.Actions = class Actions {
         })
     }
 
-    async setAction(body, servers) {
+    async setAction(body) {
         const value = body.value;
         const proposalNumber = new Date().getTime();
         let result = {};
         let counter = 0;
 
         /* Prepare request. */
-        for (let i = 0; i < servers.length; i++) {
+        for (let i = 0; i < this.servers.length; i++) {
             const options = {
-                url: 'http://' + servers[i],
+                url: 'http://' + this.servers[i],
                 body: JSON.stringify({
                     action: 'prepare',
                     number: proposalNumber
@@ -40,13 +40,13 @@ exports.Actions = class Actions {
                 }
             };
 
-            result[servers[i]] = JSON.parse(await this.sendRequest(options));
+            result[this.servers[i]] = JSON.parse(await this.sendRequest(options));
 
-            console.log(servers[i], result[servers[i]], result[servers[i]].status);
-            if (result[servers[i]].status === 'Ok') {
+            console.log(this.servers[i], result[this.servers[i]], result[this.servers[i]].status);
+            if (result[this.servers[i]].status === 'Ok') {
                 counter++;
-            } else if (result[servers[i]].number !== undefined) {
-                return {value: result[servers[i]].value}
+            } else if (result[this.servers[i]].number !== undefined) {
+                return {value: result[this.servers[i]].value}
             }
         }
 
@@ -58,9 +58,9 @@ exports.Actions = class Actions {
 
         /* Accept request. */
         result = {};
-        for (let i = 0; i < servers.length; i++) {
+        for (let i = 0; i < this.servers.length; i++) {
             const options = {
-                url: 'http://' + servers[i],
+                url: 'http://' + this.servers[i],
                 body: JSON.stringify({
                     action: 'accept',
                     number: proposalNumber,
@@ -72,12 +72,12 @@ exports.Actions = class Actions {
                 }
             };
 
-            result[servers[i]] = JSON.parse(await this.sendRequest(options));
+            result[this.servers[i]] = JSON.parse(await this.sendRequest(options));
         }
         console.log(result);
     }
 
-    prepareAction(body, servers) {
+    prepareAction(body) {
         if (this.state.currentNumber > body.number) {
             return {number: body.number, value: this.state.value};
         }
@@ -86,7 +86,7 @@ exports.Actions = class Actions {
         return {status: 'Ok'};
     }
 
-    acceptAction(body, servers) {
+    acceptAction(body) {
         if (this.state.currentNumber > body.number) {
             return {number: body.number, value: this.state.value};
         }
