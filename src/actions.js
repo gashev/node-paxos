@@ -21,6 +21,7 @@ exports.Actions = class Actions {
     }
 
     async setAction(body) {
+        console.log('action request');
         const value = body.value;
         const proposalNumber = new Date().getTime();
         let result = {};
@@ -85,6 +86,7 @@ exports.Actions = class Actions {
     }
 
     prepareAction(body) {
+        console.log('prepare request');
         if (this.state.number > body.number) {
             return {number: body.number, value: this.state.value};
         }
@@ -94,6 +96,7 @@ exports.Actions = class Actions {
     }
 
     acceptAction(body) {
+        console.log('accept request');
         if (this.state.number > body.number) {
             return {number: body.number, value: this.state.value};
         }
