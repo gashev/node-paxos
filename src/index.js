@@ -5,18 +5,7 @@ const servers = getServers();
 
 function getServers() {
     const serversStr = process.env.SERVERS;
-    var allServers = serversStr.split(',');
-    var index = allServers.indexOf(`${ip}:${port}`);
-    if (index === -1) {
-        throw Error('Current server not found in SERVERS list.');
-    }
-
-    allServers.splice(index, 1);
-    return allServers;
+    return serversStr.split(',');
 }
-
-let proposalNumber = 0;
-let currentNumber = 0;
-let value = undefined;
 
 app.initApp(ip, port, servers);

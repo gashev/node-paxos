@@ -73,6 +73,7 @@ exports.Actions = class Actions {
             };
 
             result[this.servers[i]] = JSON.parse(await this.sendRequest(options));
+            /* @todo: add response validation (number parameter). */
         }
         console.log(result);
     }
