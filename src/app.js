@@ -17,14 +17,17 @@ exports.initApp = function(ip, port, servers) {
     app.post('/', function(req, res) {
         const a = new actions.Actions(servers);
         switch (req.body.action) {
+            case 'accept':
+                res.send(a.acceptAction(req.body, servers));
+                return;
+                break;
             case 'prepare':
                 const result = a.prepareAction(req.body, servers);
-                console.log('app.prepare', result);
                 res.send(result);
                 return;
                 break;
             case 'set':
-                res.send(JSON.stringify(a.setAction(req.body, servers)));
+                res.send(a.setAction(req.body, servers));
                 return;
                 break;
             default:
