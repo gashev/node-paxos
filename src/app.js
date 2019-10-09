@@ -1,7 +1,6 @@
 const express = require('express');
 
-const setAction = require('../src/actions/set');
-const prepareAction = require('../src/actions/prepare');
+const actions = require('../src/actions');
 
 exports.initApp = function(ip, port, servers) {
     const app = express();
@@ -16,12 +15,13 @@ exports.initApp = function(ip, port, servers) {
     });
 
     app.post('/', function(req, res) {
+        const a = new actions.Actions(servers);
         switch (req.body.action) {
             case 'prepare':
-                prepareAction.prepareAction(req.body, servers);
+                a.prepareAction(req.body, servers);
                 break;
             case 'set':
-                setAction.setAction(req.body, servers);
+                a.setAction(req.body, servers);
                 break;
             default:
                 res.send('{"error": "Incorrect action"}');
