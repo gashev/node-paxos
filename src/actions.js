@@ -87,11 +87,11 @@ exports.Actions = class Actions {
 
     prepareAction(body) {
         console.log('prepare request');
-        if (this.state.number > body.number) {
-            return {number: body.number, value: this.state.value};
+        if (this.state.prepareNumber > body.number) {
+            return {number: this.state.number, value: this.state.value};
         }
 
-        this.state.number = body.number;
+        this.state.prepareNumber = body.number;
         return {status: 'Ok'};
     }
 

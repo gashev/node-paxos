@@ -8,7 +8,7 @@ exports.initApp = function(ip, port, servers) {
     app.use(express.json())
 
     app.get('/', function(req, res) {
-        res.send(a.state);
+        res.send({number: a.state.number, value: a.state.value});
     });
 
     app.post('/', function(req, res) {
