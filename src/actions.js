@@ -13,9 +13,9 @@ exports.Actions = class Actions {
             let result = await new Promise(function(resolve, reject) {
                 request(options, function(err, resp, body) {
                     if (err) {
-                    reject(err);
+                        reject(err);
                     } else {
-                    resolve(body);
+                        resolve(body);
                     }
                 })
             });
