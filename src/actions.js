@@ -103,6 +103,6 @@ exports.Actions = class Actions {
         }
 
         console.log('this.state', this.state);
-        return {number: body.number, value: this.state.value};
+        return {number: this.state.number, value: this.state.value};
     }
 }
