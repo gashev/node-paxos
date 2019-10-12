@@ -97,12 +97,10 @@ exports.Actions = class Actions {
 
     acceptAction(body) {
         console.log('accept request');
-        if (this.state.number > body.number) {
-            return {number: body.number, value: this.state.value};
+        if (this.state.number < body.number) {
+            this.state.number = body.number;
+            this.state.value = body.value;
         }
-
-        this.state.number = body.number;
-        this.state.value = body.value;
 
         console.log('this.state', this.state);
         return {number: body.number, value: this.state.value};
