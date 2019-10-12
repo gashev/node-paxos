@@ -8,7 +8,7 @@ exports.Actions = class Actions {
         this.quorumCount = Math.floor(this.servers.length / 2) + 1;
     }
 
-    async sendRequest(options) {
+    async _sendRequest(options) {
         try {
             let result = await new Promise(function(resolve, reject) {
                 request(options, function(err, resp, body) {
@@ -41,7 +41,7 @@ exports.Actions = class Actions {
                 }
             };
 
-            result[this.servers[i]] = await this.sendRequest(options);
+            result[this.servers[i]] = await this._sendRequest(options);
             /* @todo: add response validation (number parameter). */
         }
 
@@ -69,7 +69,7 @@ exports.Actions = class Actions {
                 }
             };
 
-            result[this.servers[i]] = await this.sendRequest(options);
+            result[this.servers[i]] = await this._sendRequest(options);
 
             console.log(this.servers[i], result[this.servers[i]], result[this.servers[i]].status);
 
