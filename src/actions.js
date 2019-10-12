@@ -8,16 +8,21 @@ exports.Actions = class Actions {
         this.quorumCount = Math.floor(this.servers.length / 2) + 1;
     }
 
-    sendRequest(options) {
-        return new Promise(function(resolve, reject) {
-            request(options, function(err, resp, body) {
-                if (err) {
-                reject(err);
-                } else {
-                resolve(body);
-                }
-            })
-        })
+    async sendRequest(options) {
+        try {
+            let result = await new Promise(function(resolve, reject) {
+                request(options, function(err, resp, body) {
+                    if (err) {
+                    reject(err);
+                    } else {
+                    resolve(body);
+                    }
+                })
+            });
+            return JSON.parse(result);
+        } catch (err) {
+            return {error: err};
+        }
     }
 
     async setAction(body) {
@@ -41,12 +46,10 @@ exports.Actions = class Actions {
                 }
             };
 
-            try {
-                result[this.servers[i]] = JSON.parse(await this.sendRequest(options));
-            } catch (err) {
-                result[this.servers[i]] = {error: err};
-            }
+            result[this.servers[i]] = await this.sendRequest(options);
+
             console.log(this.servers[i], result[this.servers[i]], result[this.servers[i]].status);
+
             if (result[this.servers[i]].status === 'Ok') {
                 counter++;
             } else if (result[this.servers[i]].number !== undefined) {
@@ -75,11 +78,8 @@ exports.Actions = class Actions {
                     'Content-Type':'application/json'
                 }
             };
-            try {
-                result[this.servers[i]] = JSON.parse(await this.sendRequest(options));
-            } catch (err) {
-                result[this.servers[i]] = {error: err};
-            }
+
+            result[this.servers[i]] = await this.sendRequest(options);
             /* @todo: add response validation (number parameter). */
         }
         console.log(result);
