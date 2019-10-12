@@ -25,6 +25,29 @@ exports.Actions = class Actions {
         }
     }
 
+    async _acceptRequest(number, value) {
+        let result = {};
+        for (let i = 0; i < this.servers.length; i++) {
+            const options = {
+                url: 'http://' + this.servers[i],
+                body: JSON.stringify({
+                    action: 'accept',
+                    number: number,
+                    value: value,
+                }),
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                }
+            };
+
+            result[this.servers[i]] = await this.sendRequest(options);
+            /* @todo: add response validation (number parameter). */
+        }
+
+        return result;
+    }
+
     async setAction(body) {
         console.log('action request');
         const value = body.value;
@@ -63,25 +86,7 @@ exports.Actions = class Actions {
             return {error: 'No quorum'}
         }
 
-        /* Accept request. */
-        result = {};
-        for (let i = 0; i < this.servers.length; i++) {
-            const options = {
-                url: 'http://' + this.servers[i],
-                body: JSON.stringify({
-                    action: 'accept',
-                    number: proposalNumber,
-                    value: value,
-                }),
-                method: 'POST',
-                headers: {
-                    'Content-Type':'application/json'
-                }
-            };
-
-            result[this.servers[i]] = await this.sendRequest(options);
-            /* @todo: add response validation (number parameter). */
-        }
+        result = await this._acceptRequest(proposalNumber, value);
         console.log(result);
     }
 
